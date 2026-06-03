@@ -8,27 +8,11 @@ class User(AbstractUser):
 
 
 class Product(models.Model):
-    name = models.CharField(
-        max_length=200,
-        verbose_name="Назва продукту"
-    )
-    description = models.TextField(
-        verbose_name="Опис продукту"
-    )
-    price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        verbose_name="Ціна"
-    )
-    stock = models.PositiveIntegerField(
-        verbose_name="Кількість на складі"
-    )
-    image = models.ImageField(
-        upload_to='products/',
-        null=True,
-        blank=True,
-        verbose_name="Зображення"
-    )
+    name = models.CharField(max_length=200, verbose_name="Назва продукту")
+    description = models.TextField(verbose_name="Опис продукту")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Ціна")
+    stock = models.PositiveIntegerField(verbose_name="Кількість на складі")
+    image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name="Зображення")
 
     @property
     def in_stock(self):
@@ -50,38 +34,11 @@ class Order(models.Model):
         CONFIRMED = 'confirmed'
         CANCELLED = 'cancelled'
 
-    order_id = models.UUIDField(
-        primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        verbose_name="ID замовлення"
-    )
-
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='orders',
-        verbose_name="Користувач"
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата створення"
-    )
-
-    status = models.CharField(
-        max_length=10,
-        choices=StatusChoices.choices,
-        default=StatusChoices.PENDING,
-        verbose_name="Статус"
-    )
-
-    products = models.ManyToManyField(
-        Product,
-        through='OrderItem',
-        related_name='orders',
-        verbose_name="Продукти"
-    )
+    order_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name="ID замовлення")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders', verbose_name="Користувач")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
+    status = models.CharField(max_length=10, choices=StatusChoices.choices, default=StatusChoices.PENDING, verbose_name="Статус")
+    products = models.ManyToManyField(Product, through='OrderItem', related_name='orders', verbose_name="Продукти")
 
     def __str__(self):
         return f"Order {self.order_id} - {self.user.username}"
@@ -93,22 +50,10 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-        related_name='items',
-        verbose_name="Замовлення"
-    )
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.CASCADE,
-        related_name='order_items',
-        verbose_name="Продукт"
-    )
-    quantity = models.PositiveIntegerField(
-        default=1,
-        verbose_name="Кількість"
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name="Замовлення")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items', verbose_name="Продукт")
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Кількість")
+    
     @property
     def item_subtotal(self):
         return self.product.price * self.quantity
