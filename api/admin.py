@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Product, Order, OrderItem
 
 
@@ -42,3 +43,13 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['order', 'product', 'quantity', 'item_subtotal']
     list_filter = ['order__status']
     readonly_fields = ['item_subtotal']
+
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    """
+    Адмін панель для моделі User.
+    """
+    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff']
+    list_filter = ['is_staff', 'is_superuser']
+    search_fields = ['username', 'email', 'first_name', 'last_name']

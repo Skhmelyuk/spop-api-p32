@@ -11,6 +11,7 @@ Content-Type: application/json
 
 PUT http://localhost:8000/api/products/29/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer <token>
 
 {
     "name": "Картопля 20 кг",
@@ -23,6 +24,7 @@ Content-Type: application/json
 
 PATCH  http://localhost:8000/api/products/29/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer <token>
 
 {
     "price": "1045.00",
@@ -34,11 +36,13 @@ Content-Type: application/json
 
 DELETE  http://localhost:8000/api/products/28/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer <token>
 
 ###
 
 POST http://localhost:8000/api/products/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer <token>
 
 {
     "name": "Картопля 40 кг",
@@ -51,3 +55,23 @@ Content-Type: application/json
 
 GET http://localhost:8000/api/orders/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer <token>
+
+###
+
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+###
+
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc4MDc3MjkyMSwiaWF0IjoxNzgwNzcyNjIxLCJqdGkiOiJiOTRjOGIyNDU4YzQ0NmRlODVjMjQyYTBjNGFmMGVmZSIsInVzZXJfaWQiOiIzIn0.SHExPWWuPXYjl7GiR7jEHka2VIXQMyshrXMkeEagJWk"
+}
