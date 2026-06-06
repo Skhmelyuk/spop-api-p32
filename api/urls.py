@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
+from .views import ProductUpdateDestroyDetailAPI, ProductListCreateApi, OrderAPIList
 
 app_name = 'api'
 
 urlpatterns = [
-    path('products/', views.product_list, name='product_list'),
-    path('products/<int:pk>/', views.product_detail, name='product_detail'),
-    path('orders/', views.order_list, name='order_list'),
+    path('products/', ProductListCreateApi.as_view(), name='product_list_create'),
+    path('products/<int:pk>/', ProductUpdateDestroyDetailAPI.as_view(), name='product_detail'),
+    path('orders/', OrderAPIList.as_view(), name='order_list'),
 ]

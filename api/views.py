@@ -1,26 +1,19 @@
-from django.shortcuts import get_object_or_404
 from .models import Product, Order
 from .serializers import ProductSerializer, OrderSerializer
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics
 
-@api_view(['GET'])
-def product_list(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)
 
-@api_view(['GET'])
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product)
-    return Response(serializer.data)
+# get all products and create new product
+class ProductListCreateApi(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-@api_view(['GET'])
-def order_list(request):
-    orders = Order.objects.all()
-    serializer = OrderSerializer(orders, many=True)
-    return Response({
-        'count': orders.count(),
-        'data': serializer.data
-    })
+# get product by id and update and delete product
+class ProductUpdateDestroyDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+# get all orders
+class OrderAPIList(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

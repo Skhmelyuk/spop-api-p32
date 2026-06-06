@@ -6,7 +6,7 @@ from .models import Product, Order, OrderItem
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = [ 'name', 'description', 'price', 'stock']
+        fields = [ 'id', 'name', 'description', 'price', 'stock']
 
     def validate_price(self, value):
         if value <= 0:
@@ -26,12 +26,15 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
 
     product_name = serializers.CharField(source='product.name', read_only=True)
+    
     product_price = serializers.DecimalField(
         max_digits=10, 
         decimal_places=2, 
         source='product.price', 
         read_only=True
     )
+
+    # product = ProductSerializer(read_only=True)
     
     class Meta:
         model = OrderItem
@@ -45,14 +48,10 @@ class OrderSerializer(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField(method_name='total')
     
     def total(self, obj):
-        """
-        Обчислює загальну вартість замовлення
-        obj - це instance моделі Order
-        """
         order_items = obj.items.all()
         total = sum(item.item_subtotal for item in order_items)
         return total
     
     class Meta:
         model = Order
-        fields = ['order_id', 'created_at', 'user', 'status', 'items', 'total_price']
+        fields = ['order_id', 'created_at', 'user', 'status',   'items', 'total_price']

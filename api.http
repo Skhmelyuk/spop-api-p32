@@ -1,0 +1,53 @@
+
+GET http://localhost:8000/api/products/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:8000/api/products/29/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8000/api/products/29/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Картопля 20 кг",
+    "description": "Смачна картопля для смаження та варіння.",
+    "price": "245.00",
+    "stock": 150
+}
+
+###
+
+PATCH  http://localhost:8000/api/products/29/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "price": "1045.00",
+    "stock": 250
+}
+
+
+###
+
+DELETE  http://localhost:8000/api/products/28/ HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:8000/api/products/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Картопля 40 кг",
+    "description": "Смачна картопля для смаження та варіння.",
+    "price": "145.00",
+    "stock": 50
+}
+
+###
+
+GET http://localhost:8000/api/orders/ HTTP/1.1
+Content-Type: application/json
