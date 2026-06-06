@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
+    'drf_spectacular',
+    'rest_framework_simplejwt',
     'api',
 ]
 
@@ -130,7 +132,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -142,5 +145,11 @@ SIMPLE_JWT = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Shop API',
+    'DESCRIPTION': 'Shop API description',
+    'VERSION': '1.0.0',
+}
 
 
